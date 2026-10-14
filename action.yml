@@ -37,6 +37,10 @@ inputs:
     description: 'The name of the artifact that contains the ZAP reports'
     required: false
     default: 'zap_scan'
+  network:
+    description: 'Docker network mode for the ZAP container (e.g., "host", "bridge", or a custom network name)'
+    required: false
+    default: 'host'
 runs:
   using: 'node24'
   main: 'dist/index.js'
