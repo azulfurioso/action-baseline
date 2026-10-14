@@ -151584,8 +151584,8 @@ async function run() {
         let failAction = core.getInput('fail_action');
         let allowIssueWriting = core.getInput('allow_issue_writing');
         let artifactName = core.getInput('artifact_name');
+        let networkMode = core.getInput('network') || 'host';
         let createIssue = true;
-
         if (!(String(failAction).toLowerCase() === 'true' || String(failAction).toLowerCase() === 'false')) {
             console.log('[WARNING]: \'fail_action\' action input should be either \'true\' or \'false\'');
         }
@@ -151611,7 +151611,8 @@ async function run() {
         await exec.exec(`chmod a+w ${workspace}`);
 
         await exec.exec(`docker pull ${docker_name} -q`);
-        let command = (`docker run -v ${workspace}:/zap/wrk/:rw --network="host" -e ZAP_AUTH_HEADER -e ZAP_AUTH_HEADER_VALUE -e ZAP_AUTH_HEADER_SITE ` +
+        console.log(`### MY FORK: networkMode = ${networkMode}`);
+        let command = (`docker run -v ${workspace}:/zap/wrk/:rw --network="${networkMode}" -e ZAP_AUTH_HEADER -e ZAP_AUTH_HEADER_VALUE -e ZAP_AUTH_HEADER_SITE ` +
             `-t ${docker_name} zap-baseline.py -t ${target} -J ${jsonReportName} -w ${mdReportName}  -r ${htmlReportName} ${cmdOptions}`);
 
         if (plugins.length !== 0) {

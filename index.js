@@ -50,6 +50,7 @@ async function run() {
         await exec.exec(`chmod a+w ${workspace}`);
 
         await exec.exec(`docker pull ${docker_name} -q`);
+        console.log(`### MY FORK: networkMode = ${networkMode}`);
         let command = (`docker run -v ${workspace}:/zap/wrk/:rw --network="${networkMode}" -e ZAP_AUTH_HEADER -e ZAP_AUTH_HEADER_VALUE -e ZAP_AUTH_HEADER_SITE ` +
             `-t ${docker_name} zap-baseline.py -t ${target} -J ${jsonReportName} -w ${mdReportName}  -r ${htmlReportName} ${cmdOptions}`);
 
